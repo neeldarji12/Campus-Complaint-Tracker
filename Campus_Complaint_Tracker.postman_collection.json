@@ -1,0 +1,443 @@
+{
+  "info": {
+    "_postman_id": "c1f7b8a2-9d3e-4b28-a570-981f3d32ce71",
+    "name": "Campus Complaint Tracker API",
+    "description": "Complete REST API collection for Campus Complaint Tracker built with Node.js, Express, and MongoDB/Mongoose.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "complaintId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Health & Welcome Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": ["{{baseUrl}}"],
+          "path": [""]
+        },
+        "description": "Checks server status and displays available API endpoints."
+      }
+    },
+    {
+      "name": "2. Complaints CRUD",
+      "item": [
+        {
+          "name": "Create Complaint 1 - Infrastructure (High)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.data && jsonData.data._id) {",
+                  "    pm.collectionVariables.set('complaintId', jsonData.data._id);",
+                  "    console.log('Saved complaintId:', jsonData.data._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentName\": \"Aarav Patel\",\n  \"email\": \"aarav.patel@campus.edu\",\n  \"title\": \"Broken Projector in Lecture Hall 3\",\n  \"description\": \"The ceiling projector is flickering constantly and shuts down after 10 minutes of usage.\",\n  \"category\": \"Infrastructure\",\n  \"priority\": \"High\",\n  \"location\": \"Lecture Hall 3, Block A\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints"]
+            },
+            "description": "Creates a new complaint. Status will default to 'Open'. Saves complaint ID automatically for subsequent tests."
+          }
+        },
+        {
+          "name": "Create Complaint 2 - IT (Medium)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentName\": \"Sneha Sharma\",\n  \"email\": \"sneha.sharma@campus.edu\",\n  \"title\": \"Wi-Fi Connection Dropping in Library 2nd Floor\",\n  \"description\": \"Students are unable to access research journals due to intermittent Wi-Fi drops on the 2nd floor.\",\n  \"category\": \"IT\",\n  \"priority\": \"Medium\",\n  \"location\": \"Central Library, 2nd Floor\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints"]
+            }
+          }
+        },
+        {
+          "name": "Create Complaint 3 - Cleanliness (Low)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentName\": \"Rohan Verma\",\n  \"email\": \"rohan.verma@campus.edu\",\n  \"title\": \"Water Cooler Leakage near Cafeteria\",\n  \"description\": \"There is continuous water spillage from drinking water cooler creating slipping hazard.\",\n  \"category\": \"Cleanliness\",\n  \"priority\": \"Low\",\n  \"location\": \"Main Cafeteria Entrance\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints"]
+            }
+          }
+        },
+        {
+          "name": "Create Complaint 4 - Security (High)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentName\": \"Ananya Iyer\",\n  \"email\": \"ananya.iyer@campus.edu\",\n  \"title\": \"Faulty Emergency Exit Door Lock\",\n  \"description\": \"Emergency exit door lock on Ground Floor Block C gets jammed and does not open smoothly.\",\n  \"category\": \"Security\",\n  \"priority\": \"High\",\n  \"location\": \"Ground Floor, Block C\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints"]
+            }
+          }
+        },
+        {
+          "name": "Get All Complaints",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints"]
+            },
+            "description": "Retrieves all registered complaints sorted newest first."
+          }
+        },
+        {
+          "name": "Get Complaint By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints/{{complaintId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints", "{{complaintId}}"]
+            },
+            "description": "Fetch a specific complaint using its MongoDB ObjectId."
+          }
+        },
+        {
+          "name": "Update Complaint Details (PUT)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Broken Projector in Lecture Hall 3 (Bulb Replaced)\",\n  \"description\": \"Technician replaced the lamp, need to verify resolution.\",\n  \"priority\": \"Medium\",\n  \"location\": \"Lecture Hall 3, Block A (Near Podium)\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints/{{complaintId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints", "{{complaintId}}"]
+            },
+            "description": "Updates editable fields of an existing complaint."
+          }
+        },
+        {
+          "name": "Update Complaint Status Only (PATCH)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"In Progress\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints/{{complaintId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints", "{{complaintId}}", "status"]
+            },
+            "description": "Updates only the status field. Valid values: Open, In Progress, Resolved, Rejected."
+          }
+        },
+        {
+          "name": "Mark Complaint Resolved (PATCH)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Resolved\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints/{{complaintId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints", "{{complaintId}}", "status"]
+            }
+          }
+        },
+        {
+          "name": "Delete Complaint",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints/{{complaintId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints", "{{complaintId}}"]
+            },
+            "description": "Deletes the complaint by ID."
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Filters & Search",
+      "item": [
+        {
+          "name": "Filter by Status (Open)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints?status=Open",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "Open"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Category (IT)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints?category=IT",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints"],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "IT"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Priority (High)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints?priority=High",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints"],
+              "query": [
+                {
+                  "key": "priority",
+                  "value": "High"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search Complaints (by Title or Student Name)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints?search=Projector",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "Projector"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Combined Filter & Search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints?status=Open&category=Infrastructure&priority=High&search=Projector",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "Open"
+                },
+                {
+                  "key": "category",
+                  "value": "Infrastructure"
+                },
+                {
+                  "key": "priority",
+                  "value": "High"
+                },
+                {
+                  "key": "search",
+                  "value": "Projector"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Validation & Error Handling (Negative Tests)",
+      "item": [
+        {
+          "name": "Create Complaint - Missing Required Fields (Expect 400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentName\": \"Incomplete Record\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints"]
+            }
+          }
+        },
+        {
+          "name": "Create Complaint - Invalid Category (Expect 400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentName\": \"Test User\",\n  \"email\": \"test@campus.edu\",\n  \"title\": \"Invalid Category Test\",\n  \"description\": \"Testing invalid category enum rejection\",\n  \"category\": \"InvalidCategory\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints"]
+            }
+          }
+        },
+        {
+          "name": "Update Status - Invalid Status Enum (Expect 400)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Archived\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints/{{complaintId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints", "{{complaintId}}", "status"]
+            }
+          }
+        },
+        {
+          "name": "Get By ID - Malformed ObjectId (Expect 400)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints/12345-not-an-id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints", "12345-not-an-id"]
+            }
+          }
+        },
+        {
+          "name": "Get By ID - Non-Existent ID (Expect 404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/complaints/507f1f77bcf86cd799439011",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "complaints", "507f1f77bcf86cd799439011"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
